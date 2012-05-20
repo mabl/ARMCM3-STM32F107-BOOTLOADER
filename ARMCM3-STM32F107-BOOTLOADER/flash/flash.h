@@ -64,24 +64,24 @@ typedef unsigned int flashpage_t;
 typedef uint16_t flashdata_t;
 
 /**
- * @brief   Delete a flash @p page belonging to the user application.
- * @details The page is checked for errors after deletion.
+ * @brief   Erase a flash @p page belonging to the user application.
+ * @details The page is checked for errors after erase.
  * @note    The page is deleted regardless of its current state.
  *
  * @param page  Page which is going to be deleted.
- * @return FLASH_RETURN_SUCCESS         No error deleting the page.
+ * @return FLASH_RETURN_SUCCESS         No error erasing the page.
  * @return FLASH_RETURN_BADFLASH        Flash cell error.
  * @return FLASH_RETURN_NO_PERMISSION   Access denied.
  */
-int flashDeletePage(flashpage_t page);
+int flashPageErase(flashpage_t page);
 
 /**
- * @brief   Check if the @p page is already deleted.
+ * @brief   Check if the @p page is already erased.
  * @param   page Page to check.
- * @return TRUE  Page is already deleted.
- * @return FALSE Page is not yet deleted.
+ * @return TRUE  Page is already erased.
+ * @return FALSE Page is not erased.
  */
-bool_t flashCheckPageDeleted(flashpage_t page);
+bool_t flashPageCheckErased(flashpage_t page);
 
 /**
  * @brief Read @p page into @p buffer.
@@ -90,7 +90,7 @@ bool_t flashCheckPageDeleted(flashpage_t page);
  * @return CH_SUCCESS   Page successfully read.
  * @return CH_FAILED    Page read failed.
  */
-bool_t flashReadPage(flashpage_t page, flashdata_t* buffer);
+bool_t flashPageRead(flashpage_t page, flashdata_t* buffer);
 
 /**
  * @brief Compare a @p buffer with a @p page in memory.

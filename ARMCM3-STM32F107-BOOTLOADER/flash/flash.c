@@ -35,7 +35,7 @@ static void flashLock(void) {
 }
 
 
-int flashDeletePage(flashpage_t page){
+int flashPageErase(flashpage_t page){
 
   /* Only write on pages in the user area */
   if (!(FLASH_IS_ADDRESS_USERSPACE(FLASH_ADDRESS_OF_PAGE(page))))
@@ -63,14 +63,14 @@ int flashDeletePage(flashpage_t page){
   flashLock();
 
   /* Check deleted page for errors */
-  if(flashCheckPageDeleted(page) == FALSE)
+  if(flashPageCheckErased(page) == FALSE)
     return FLASH_RETURN_BADFLASH;  /* Page is not empty despite the erase cycle! */
 
   /* Successfully deleted page */
   return FLASH_RETURN_SUCCESS;
 }
 
-bool_t flashCheckPageDeleted(flashpage_t page){
+bool_t flashPageCheckErased(flashpage_t page){
   uint32_t* const startAddress = (uint32_t*) FLASH_ADDRESS_OF_PAGE(page);
   uint32_t* const stopAddress = (uint32_t*) FLASH_ADDRESS_OF_PAGE(page+1);
 
@@ -87,7 +87,7 @@ bool_t flashCheckPageDeleted(flashpage_t page){
 }
 
 
-bool_t flashReadPage(flashpage_t page, flashdata_t* buffer){
+bool_t flashPageRead(flashpage_t page, flashdata_t* buffer){
   memcpy(buffer, (void*) FLASH_ADDRESS_OF_PAGE(page), FLASH_PAGE_SIZE);
   return CH_SUCCESS;
 }
@@ -181,7 +181,7 @@ int flashPageWriteIfNeeded(flashpage_t page, const flashdata_t* buffer){
 
   /* Page needs erase */
   if (err == 2)
-    err = flashDeletePage(page);
+    err = flashPageErase(page);
 
   /* Return errors of page erase */
   if (err != FLASH_RETURN_SUCCESS)

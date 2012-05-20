@@ -46,7 +46,7 @@ int linearFlashProgram(struct LinearFlashing* flash, uint32_t address,
 
     /* Read back new page if page as changed. */
     if(oldPage != flash->currentPage) {
-      err = flashReadPage(flash->currentPage, flash->pageBuffer);
+      err = flashPageRead(flash->currentPage, flash->pageBuffer);
 
       /* Return if we get errors here. */
       if (err == CH_FAILED)
