@@ -60,7 +60,7 @@
  *          and generally faster.
  */
 #if !defined(CH_TIME_QUANTUM) || defined(__DOXYGEN__)
-#define CH_TIME_QUANTUM                 20
+#define CH_TIME_QUANTUM                  0
 #endif
 
 /**
@@ -132,7 +132,7 @@
  * @note    The default is @p TRUE.
  */
 #if !defined(CH_USE_REGISTRY) || defined(__DOXYGEN__)
-#define CH_USE_REGISTRY                 TRUE
+#define CH_USE_REGISTRY                 FALSE
 #endif
 
 /**
@@ -143,7 +143,7 @@
  * @note    The default is @p TRUE.
  */
 #if !defined(CH_USE_WAITEXIT) || defined(__DOXYGEN__)
-#define CH_USE_WAITEXIT                 TRUE
+#define CH_USE_WAITEXIT                 FALSE
 #endif
 
 /**
