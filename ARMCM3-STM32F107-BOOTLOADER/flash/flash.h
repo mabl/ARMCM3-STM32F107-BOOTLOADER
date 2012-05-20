@@ -69,7 +69,7 @@ typedef uint16_t flashdata_t;
  * @note    The page is deleted regardless of its current state.
  *
  * @param page  Page which is going to be deleted.
- * @return FLASH_RETURN_SUCCESS              No error deleting the page.
+ * @return FLASH_RETURN_SUCCESS         No error deleting the page.
  * @return FLASH_RETURN_BADFLASH        Flash cell error.
  * @return FLASH_RETURN_NO_PERMISSION   Access denied.
  */
@@ -109,9 +109,9 @@ int flashPageCompare(flashpage_t page, const flashdata_t* buffer);
  *          writing with @p flashPageCompare.
  * @param page
  * @param buffer
- * @return 0    No error writing the page.
- * @return -1   Flash cell error.
- * @return -2   Access denied.
+ * @return FLASH_RETURN_SUCCESS         No error deleting the page.
+ * @return FLASH_RETURN_BADFLASH        Flash cell error.
+ * @return FLASH_RETURN_NO_PERMISSION   Access denied.
  */
 int flashPageWrite(flashpage_t page, const flashdata_t* buffer);
 
@@ -120,9 +120,9 @@ int flashPageWrite(flashpage_t page, const flashdata_t* buffer);
  * @details This function only erases the page and writes if needed.
  * @param page
  * @param buffer
- * @return 0    No error writing the page.
- * @return -1   Flash cell error.
- * @return -2   Access denied.
+ * @return FLASH_RETURN_SUCCESS         No error deleting the page.
+ * @return FLASH_RETURN_BADFLASH        Flash cell error.
+ * @return FLASH_RETURN_NO_PERMISSION   Access denied.
  */
 int flashPageWriteIfNeeded(flashpage_t page, const flashdata_t* buffer);
 
