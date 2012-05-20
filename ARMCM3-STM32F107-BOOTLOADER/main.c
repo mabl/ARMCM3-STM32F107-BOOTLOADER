@@ -79,35 +79,11 @@ static void loaderError(unsigned int errno){
   flashJumpApplication(FLASH_USER_BASE);
 }
 
-/*
- * Red LED blinker thread, times are in milliseconds.
- */
-
-static bool_t flashing;
-static WORKING_AREA(waThread1, 128);
-static msg_t Thread1(void *arg) {
-
-  (void)arg;
-  chRegSetThreadName("blinker");
-  while (TRUE) {
-
-    if (flashing) {
-      palClearPad(GPIOC, GPIOC_LED_STATUS2);
-      chThdSleepMilliseconds(100);
-      palSetPad(GPIOC, GPIOC_LED_STATUS2);
-      chThdSleepMilliseconds(100);
-    } else {
-      chThdSleepMilliseconds(50);
-    }
-
-  }
-}
-
 /*===========================================================================*/
 /* Flash programming                                                         */
 /*===========================================================================*/
 
-
+static bool_t flashing = FALSE;
 static struct LinearFlashing flashPage;
 
 static WORKING_AREA(waMMCFlasherThread, 2048);
@@ -237,10 +213,6 @@ int main(void) {
    */
   sdStart(&SD3, NULL);
 
-  /*
-   * Creates the blinker thread.
-   */
-  chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
   /*
    * Initializes the MMC driver to work with SPI3.
@@ -250,15 +222,23 @@ int main(void) {
   mmcObjectInit(&MMCD1);
   mmcStart(&MMCD1, &mmccfg);
 
-
   /*
-   * Creates the blinker thread.
+   * Creates the flasher thread.
    */
   chThdCreateStatic(waMMCFlasherThread, sizeof(waMMCFlasherThread),
       NORMALPRIO, MMCFlasherThread, NULL);
 
   while (TRUE) {
-    chThdSleepMilliseconds(500);
+    /* Flash red LED depending on the flash status */
+    if (flashing) {
+      palClearPad(GPIOC, GPIOC_LED_STATUS2);
+      chThdSleepMilliseconds(100);
+      palSetPad(GPIOC, GPIOC_LED_STATUS2);
+      chThdSleepMilliseconds(100);
+    } else {
+      chThdSleepMilliseconds(50);
+    }
+
   }
 
   return 0;
