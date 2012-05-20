@@ -36,6 +36,11 @@ static void flashLock(void) {
 
 
 int flashDeletePage(flashpage_t page){
+
+  /* Only write on pages in the user area */
+  if (!(FLASH_IS_ADDRESS_USERSPACE(FLASH_ADDRESS_OF_PAGE(page))))
+    return FLASH_RETURN_NO_PERMISSION;
+
   /* Unlock flash for write access */
   if(flashUnlock() == CH_FAILED)
     return FLASH_RETURN_NO_PERMISSION;
@@ -123,6 +128,10 @@ int flashPageWrite(flashpage_t page, const flashdata_t* buffer){
   volatile flashdata_t* const pageAddr =
                                      (flashdata_t*) FLASH_ADDRESS_OF_PAGE(page);
 
+  /* Only write on pages in the user area */
+  if (!(FLASH_IS_ADDRESS_USERSPACE(FLASH_ADDRESS_OF_PAGE(page))))
+    return FLASH_RETURN_NO_PERMISSION;
+
   unsigned int pos;
 
   /* Unlock flash for write access */
@@ -159,6 +168,10 @@ int flashPageWrite(flashpage_t page, const flashdata_t* buffer){
 
 int flashPageWriteIfNeeded(flashpage_t page, const flashdata_t* buffer){
   int err;
+
+  /* Only write on pages in the user area */
+  if (!(FLASH_IS_ADDRESS_USERSPACE(FLASH_ADDRESS_OF_PAGE(page))))
+    return FLASH_RETURN_NO_PERMISSION;
 
   err = flashPageCompare(page, buffer);
 
