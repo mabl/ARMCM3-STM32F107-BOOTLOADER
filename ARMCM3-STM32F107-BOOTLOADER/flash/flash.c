@@ -121,7 +121,7 @@ int flashPageCompare(flashpage_t page, const flashdata_t* buffer){
 
 int flashPageWrite(flashpage_t page, const flashdata_t* buffer){
   volatile flashdata_t* const pageAddr =
-                          (const flashdata_t*) FLASH_ADDRESS_OF_PAGE(page);
+                                     (flashdata_t*) FLASH_ADDRESS_OF_PAGE(page);
 
   unsigned int pos;
 
