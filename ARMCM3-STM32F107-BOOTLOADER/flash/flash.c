@@ -180,12 +180,13 @@ int flashPageWriteIfNeeded(flashpage_t page, const flashdata_t* buffer){
     return err;
 
   /* Page needs erase */
-  if (err == 2)
+  if (err == 2) {
     err = flashPageErase(page);
 
-  /* Return errors of page erase */
-  if (err != FLASH_RETURN_SUCCESS)
-    return err;
+    /* Return errors of page erase */
+    if (err != FLASH_RETURN_SUCCESS)
+      return err;
+  }
 
   err = flashPageWrite(page, buffer);
 
